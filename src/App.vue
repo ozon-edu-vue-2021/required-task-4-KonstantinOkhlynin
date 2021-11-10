@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="app" id="app">
     <Form />
   </div>
 </template>
@@ -16,12 +16,13 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  color: #2c3e50;
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
+
+.app {
   background-color: #fafafa;
   padding: 24px;
-  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 html,
@@ -31,6 +32,15 @@ body,
 }
 
 * {
+  font-family: "Roboto Slab", serif;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-decoration: none;
+  color: black;
+  outline: none;
 }
 </style>
