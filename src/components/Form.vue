@@ -95,6 +95,7 @@
         :nameInput="'search'"
         :data="citizen"
         @clicks="logChange"
+        :regExp="patterns.notEmpty"
       />
     </div>
     <div v-if="rusPass" class="passport-box">
@@ -148,6 +149,11 @@
           :type="'text'"
           :nameInput="'nameEn'"
           :regExp="patterns.nameEn"
+          @vModel="
+            (value) => {
+              formData.surnameEn = value;
+            }
+          "
         />
         <Input
           :requiredToggle="true"
@@ -156,6 +162,11 @@
           :type="'text'"
           :nameInput="'nameEn'"
           :regExp="patterns.nameEn"
+          @vModel="
+            (value) => {
+              formData.nameEn = value;
+            }
+          "
         />
       </div>
       <div class="form__box">
@@ -178,11 +189,7 @@
           :defaultSelect="'Страна выдачи'"
           :requiredToggle="true"
           :data="citizen"
-          @selected="
-            (value) => {
-              formData.surname = value;
-            }
-          "
+          @selected="countryIssues"
         />
         <Select
           class="form__input"
@@ -190,11 +197,7 @@
           :requiredToggle="true"
           :data="passportTypes"
           :defaultSelect="'Тип паспорта'"
-          @selected="
-            (value) => {
-              formData.surname = value;
-            }
-          "
+          @selected="typePassport"
         />
       </div>
     </div>
@@ -244,7 +247,9 @@
         "
       />
     </div>
-    <button @click="submit()" type="submit" class="button">Yf;fnm</button>
+    <button @click="submit()" type="submit button-dis" class="button">
+      Показать в консоли
+    </button>
   </form>
 </template>
 
@@ -267,6 +272,7 @@ export default {
         mail: "^([\\w\\-\\.]+)@(\\w+([\\-\\.]\\w+)?)\\.([a-zA-Z]{2,5})$",
         passportSeries: "^([0-9]{2}\\s{1}[0-9]{2})?$",
         passportNumber: "^([0-9]{6})?$",
+        notEmpty: ".{1,}",
       },
       formData: {
         name: "",
@@ -274,6 +280,8 @@ export default {
         patronymic: "",
         dateBirth: "",
         mail: "",
+        surnameEn: "",
+        nameEn: "",
         passportSeries: "",
         passportNumber: "",
         dateRelease: "",
@@ -299,10 +307,10 @@ export default {
   },
   methods: {
     logChange(value) {
-      if (value.join() === "Russia") {
+      if (value === "Russia") {
         this.rusPass = true;
         this.otherPass = false;
-      } else if (value.join() === "") {
+      } else if (value === "") {
         this.rusPass = false;
         this.otherPass = false;
       } else {
@@ -313,21 +321,23 @@ export default {
     },
     submit() {
       console.log(`
-        ${this.formData.name}
-        ${this.formData.surname}
-        ${this.formData.patronymic}
-        ${this.formData.dateBirth}
-        ${this.formData.mail}
-        ${this.formData.passportSeries}
-        ${this.formData.passportNumber}
-        ${this.formData.dateRelease}
-        ${this.formData.prevSurname}
-        ${this.formData.prevName}
-        ${this.formData.citizenship}
-        ${this.formData.changed}
-        ${this.formData.gender}
-        ${this.formData.typePass}
-        ${this.formData.countryIssue}
+        Имя: ${this.formData.name}
+        Фамилия: ${this.formData.surname}
+        Отчество: ${this.formData.patronymic}
+        Дата рождения: ${this.formData.dateBirth}
+        Почта: ${this.formData.mail}
+        Серия паспорта: ${this.formData.passportSeries}
+        Номер паспорта: ${this.formData.passportNumber}
+        Дата выдачи: ${this.formData.dateRelease}
+        Предыдущая Фамилия: ${this.formData.prevSurname}
+        Предыдущее Имя: ${this.formData.prevName}
+        Гражданство: ${this.formData.citizenship}
+        Менял Имя,Фамилию: ${this.formData.changed}
+        Пол: ${this.formData.gender}
+        Тип паспорта: ${this.formData.typePass}
+        Страна выдачи: ${this.formData.countryIssue}
+        Фамилия на латинице: ${this.formData.surnameEn}
+        Имя на латинице: ${this.formData.nameEn}
       `);
     },
     checkedRadio(value) {
@@ -340,6 +350,12 @@ export default {
     },
     genderRadio(value) {
       this.formData.gender = value;
+    },
+    typePassport(value) {
+      this.formData.typePass = value;
+    },
+    countryIssues(value) {
+      this.formData.countryIssue = value;
     },
   },
   mounted() {
@@ -400,7 +416,7 @@ export default {
   border: none;
 }
 
-.button:invalid {
-  background: #c06369;
+.button-dis {
+  background: #f98e94;
 }
 </style>

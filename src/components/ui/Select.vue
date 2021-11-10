@@ -6,9 +6,11 @@
       :required="requiredToggle"
       class="input"
       v-model="value"
-      @blur="selected"
+      @click="selected"
     >
-      <option selected disabled>{{ defaultSelect }}</option>
+      <option selected disabled :value="defaultSelect">
+        {{ defaultSelect }}
+      </option>
       <option
         :value="item.type || item.capital"
         v-for="item in data"

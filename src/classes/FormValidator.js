@@ -23,6 +23,18 @@ export class FormValidator {
       }
     }
 
+    if (input.getAttribute("name") === "search") {
+      if (validity.patternMismatch) {
+        input.setCustomValidity("Выберите гражданство");
+        valid = false;
+        input.classList.add("input-invalid");
+      }
+      if (validity.valueMissing) {
+        input.setCustomValidity("Это обязательное поле");
+        valid = false;
+      }
+    }
+
     if (input.getAttribute("name") === "nameEn") {
       if (validity.patternMismatch) {
         input.setCustomValidity(
@@ -96,12 +108,10 @@ export class FormValidator {
     const button = this.form.querySelector(".button");
     if (valid) {
       button.removeAttribute("disabled");
-      button.classList.add("popup__button_valid");
-      button.classList.remove("popup__button_invalid");
+      button.classList.remove("button-dis");
     } else {
       button.setAttribute("disabled", "disabled");
-      button.classList.remove("popup__button_valid");
-      button.classList.add("popup__button_invalid");
+      button.classList.add("button-dis");
     }
   };
   setEventListener = () => {

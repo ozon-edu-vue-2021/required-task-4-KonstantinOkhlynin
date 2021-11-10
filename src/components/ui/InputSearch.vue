@@ -9,7 +9,7 @@
       :required="requiredToggle"
       autocomplete="off"
       class="search"
-      pattern=".{1,}"
+      :pattern="regExp"
       @click="trues()"
       @blur="clicks($event)"
       v-click-outside="hideDropdown"
@@ -62,6 +62,7 @@ export default {
     data: Array,
     nameInput: String,
     requiredToggle: Boolean,
+    regExp: String,
   },
   methods: {
     trues() {
@@ -88,7 +89,7 @@ export default {
       event.target.parentElement.querySelector("input").focus();
     },
     clicks() {
-      this.$emit("clicks", [this.selected]);
+      this.$emit("clicks", this.selected);
     },
   },
   mounted() {
